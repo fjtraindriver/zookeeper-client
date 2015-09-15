@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="zkConfigDao" class="com.egeniuss.zkweb.dao.impl.ZkConfigDaoImpl" init-method="init" destroy-method="destroy" scope="singleton">
+	   <property name="createTableSql" value="CREATE TABLE IF NOT EXISTS ZKCONNECTOR (ID VARCHAR PRIMARY KEY, DES VARCHAR, CONNECTSTR VARCHAR, SESSIONTIMEOUT VARCHAR)" />
+	   <property name="insertDataSql" value="INSERT INTO ZKCONNECTOR VALUES(?,?,?,?)" />
+	   <property name="selectAllDataSql" value="SELECT * FROM ZKCONNECTOR" />
+	   <property name="selectDataByIdSql" value="SELECT * FROM ZKCONNECTOR WHERE ID = ?" />
+	   <property name="selectDataPagableSql" value="SELECT * FROM ZKCONNECTOR limit ?, ?" />
+	   <property name="updateDataSql" value="UPDATE ZKCONNECTOR SET DES = ?, CONNECTSTR = ?, SESSIONTIMEOUT = ? WHERE ID = ?" />
+	   <property name="deleteDataSql" value="DELETE ZKCONNECTOR WHERE ID = ?" />
+	   <property name="countDataSql" value="SELECT count(1) FROM ZKCONNECTOR" />
+	</bean>
+	
+	<bean id="zkCacheService" class="com.egeniuss.zkweb.service.impl.ZkCacheServiceImpl" init-method="init" destroy-method="destroy" scope="singleton">
+	   <property name="zkConfigDao" ref="zkConfigDao" />
+	</bean>
+</beans>
